@@ -10,65 +10,59 @@ using System.Drawing.Imaging;
 
 namespace EarthLiveSharp
 {
-    static class Wallpaper
+    internal static class Wallpaper
     {
-        public const int COLOR_DESKTOP = 1;
-        public const int SPIF_UPDATEINIFILE = 0x01;
-        public const int SPIF_SENDWININICHANGE = 0x02;
-        private static int SPI_SETDESKWALLPAPER = 20;
+        public const int ColorDesktop = 1;
+        public const int SpifUpdateinifile = 0x01;
+        public const int SpifSendwininichange = 0x02;
+        private const int SpiSetdeskwallpaper = 20;
+
         public static void Set(string fpath)
         {
-            string sfiletype = fpath.Substring(fpath.LastIndexOf(".")+1,(fpath.Length-fpath.LastIndexOf(".")-1)).ToLower();
-            if (sfiletype == "bmp")
+            var extensionName = Path.GetExtension(fpath);
+            if (string.Equals(extensionName, ".bmp", StringComparison.OrdinalIgnoreCase))
             {
-                 SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, fpath, 1); //调用，filename为图片地址，最后一个参数需要为1，0的话在重启后就变回原来的了
+                SystemParametersInfo(SpiSetdeskwallpaper, 0, fpath, 1); //调用，filename为图片地址，最后一个参数需要为1，0的话在重启后就变回原来的了
             }
             else
             {
-                string bmp_path = Application.StartupPath + @"\wallpaper.bmp";
-                FileInfo file_info = new FileInfo(bmp_path);
-                if (file_info.Exists)
+                var bmpPath = Application.StartupPath + @"\wallpaper.bmp";
+                var fileInfo = new FileInfo(bmpPath);
+                if (fileInfo.Exists)
                 {
-                    file_info.Delete();
-                    PictureBox picutrebox = new PictureBox();
-                    picutrebox.Image = Image.FromFile(fpath);
-                    picutrebox.Image.Save(bmp_path, ImageFormat.Bmp);
+                    fileInfo.Delete();
+                }
+
+                using (var picutrebox = new PictureBox { Image = Image.FromFile(fpath) })
+                {
+                    picutrebox.Image.Save(bmpPath, ImageFormat.Bmp);
                     picutrebox.Image.Dispose();
                     picutrebox.Dispose();
                 }
-                else
-                {
-                    PictureBox picutrebox = new PictureBox();
-                    picutrebox.Image = Image.FromFile(fpath);
-                    picutrebox.Image.Save(bmp_path, ImageFormat.Bmp);
-                    picutrebox.Image.Dispose();
-                    picutrebox.Dispose();
-                }
-                SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, bmp_path, 1);
+
+                SystemParametersInfo(SpiSetdeskwallpaper, 0, bmpPath, 1);
             }
         }
 
-        public static void  SetDefaultStyle()
+        public static void SetDefaultStyle()
         {
-            int[] elements = { COLOR_DESKTOP };
-            int[] colors = { System.Drawing.ColorTranslator.ToWin32(Color.Black) };
+            int[] elements = { ColorDesktop };
+            int[] colors = { ColorTranslator.ToWin32(Color.Black) };
             SetSysColors(1, elements, colors);
-            RegistryKey runKey = null;
-            try
+
+            using (var rk = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
             {
-                runKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\desktop", true);
-                runKey.SetValue("TileWallpaper", "0");//0 居中 1  平铺 默认
-                runKey.SetValue("WallpaperStyle", "0");//2 拉伸
+                if (rk != null)
+                {
+                    rk.SetValue("TileWallpaper", "0");//0 居中 1  平铺 默认
+                    rk.SetValue("WallpaperStyle", "0");//0=居中 1=平铺 2=拉伸
+                }
             }
-            finally
-            {
-                runKey.Close();
-            }
-            return;
         }
 
         [DllImport("user32.dll")]
         private static extern bool SetSysColors(int cElements, int[] lpaElements, int[] lpaRgbValues);
+
         /// <summary>
         /// 调用电脑底层的接口
         /// </summary>

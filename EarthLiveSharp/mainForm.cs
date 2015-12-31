@@ -6,247 +6,225 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using EarthLiveSharp.Properties;
 
 namespace EarthLiveSharp
 {
     // It's a terrible mistake to mix the UI and business logic together.
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
-        bool serviceRunning = false;
-        MenuItem startService = new MenuItem("Start Service");
-        MenuItem stopService = new MenuItem("Stop Service");
-        MenuItem settingsMenu = new MenuItem("Settings");
-        MenuItem quitService = new MenuItem("Quit");
-        ContextMenu trayMenu = new ContextMenu();
+        private bool _serviceRunning;
+        private MenuItem _startService, _stopService, _settingsMenu, _quitService;
+        private readonly ContextMenu _trayMenu = new ContextMenu();
 
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
-            createContextMenu();
-            notifyIcon1.ContextMenu = trayMenu;
-        }
-        private void createContextMenu()
-        {
-            this.trayMenu.MenuItems.Add(startService);
-            this.trayMenu.MenuItems.Add(stopService);
-            this.trayMenu.MenuItems.Add(settingsMenu);
-            this.trayMenu.MenuItems.Add(quitService);
-            startService.Click += new EventHandler(this.startService_Click);
-            stopService.Click += new EventHandler(this.stopService_Click);
-            settingsMenu.Click += new EventHandler(this.settingsMenu_Click);
-            quitService.Click += new EventHandler(this.quitService_Click);
-
-            contextMenuSetter();
+            InitView();
         }
 
-        private void startService_Click(object sender, EventArgs e)
+        private void InitView()
         {
-            startLogic();
+            BtnStart.Text = Resources.MainForm_Start_Service;
+            BtnStop.Text = Resources.MainForm_Stop_Service;
+            BtnSetting.Text = Resources.MainForm_Setting;
+            LblStatus.Text = Resources.MainForm_Not_Running;
+
+            CreateContextMenu();
+            MyNotifyIcon.ContextMenu = _trayMenu;
         }
-        private void stopService_Click(object sender, EventArgs e)
+
+        private void CreateContextMenu()
         {
-            stopLogic();
+            _startService = new MenuItem(Resources.MainForm_Start_Service);
+            _stopService = new MenuItem(Resources.MainForm_Stop_Service);
+            _settingsMenu = new MenuItem(Resources.MainForm_Setting);
+            _quitService = new MenuItem(Resources.MainForm_Quit);
+
+            _trayMenu.MenuItems.Add(_startService);
+            _trayMenu.MenuItems.Add(_stopService);
+            _trayMenu.MenuItems.Add(_settingsMenu);
+            _trayMenu.MenuItems.Add(_quitService);
+
+            _startService.Click += StartService_Click;
+            _stopService.Click += StopService_Click;
+            _settingsMenu.Click += SettingsMenu_Click;
+            _quitService.Click += QuitService_Click;
+
+            ContextMenuSetter();
         }
-        private void settingsMenu_Click(object sender, EventArgs e)
+
+        private void StartService_Click(object sender, EventArgs e)
         {
-            settingsForm f1 = new settingsForm();
-            f1.ShowDialog();
+            StartLogic();
         }
-        private void quitService_Click(object sender, EventArgs e)
+        private void StopService_Click(object sender, EventArgs e)
         {
-            var confirmIfQuitting = MessageBox.Show("Are you sure you want to quit?","Stopping Service", MessageBoxButtons.YesNo);
+            StopLogic();
+        }
+        private void SettingsMenu_Click(object sender, EventArgs e)
+        {
+            OpenSettingForm();
+        }
+        private void QuitService_Click(object sender, EventArgs e)
+        {
+            var confirmIfQuitting = MessageBox.Show(
+                Resources.MainForm_Are_you_sure_you_want_to_quit,
+                Resources.MainForm_Stop_Service, MessageBoxButtons.YesNo);
             if (confirmIfQuitting == DialogResult.Yes)
             {
-                stopLogic();
-                System.Windows.Forms.Application.Exit();
+                StopLogic();
+                Application.Exit();
             }
-
         }
 
-
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void BtnSetting_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("iexplore.exe", "http://himawari8.nict.go.jp/");
+            OpenSettingForm();
         }
 
-        private void button_settings_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
-            settingsForm f1 = new settingsForm();
-            f1.ShowDialog();
+            StartLogic();
         }
 
-        private void button_start_Click(object sender, EventArgs e)
+        private void BtnStop_Click(object sender, EventArgs e)
         {
-            startLogic();
+            StopLogic();
         }
 
-        private void button_stop_Click(object sender, EventArgs e)
+        private static void OpenSettingForm()
         {
-            stopLogic();
+            var frmSetting = new SettingsForm();
+            frmSetting.ShowDialog();
         }
-        private void timer1_Tick(object sender, EventArgs e)
+
+        private void MyTimer_Tick(object sender, EventArgs e)
         {
-            Random rd = new Random();
-            int selector = rd.Next(1, 5);
-            switch (selector)
+            Scraper.ImageHost = Cfg.GetRandomCdnUrl();
+            Scraper.UpdateImage();
+            SetWallpaper();
+        }
+
+        private void MyNotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            ShowInTaskbar = true;
+            WindowState = FormWindowState.Normal;
+            BringToFront();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            BtnStop.Enabled = false;
+            if (Cfg.Autostart)
             {
-                case 1: scraper.pic_url = Cfg.cdn1_addr; break;
-                case 2: scraper.pic_url = Cfg.cdn2_addr; break;
-                case 3: scraper.pic_url = Cfg.cdn3_addr; break;
-                case 4: scraper.pic_url = Cfg.cdn4_addr; break;
-                default: scraper.pic_url = Cfg.cdn1_addr; break;
+                BtnStart.PerformClick();
+                WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
             }
-            scraper.UpdateImage();
-            if (Cfg.display_mode == 0)
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
             {
-                // Wallpaper.SetDefaultStyle();
-                if (scraper.saved_path.Length > 0)
+                ShowInTaskbar = false;
+                Hide();
+                if (!Cfg.Autostart)
                 {
-                    Wallpaper.Set(scraper.saved_path);
-                }             
-            }
-            else if (Cfg.display_mode == 1)
-            {
-                if (scraper.saved_path.Length > 0)
-                {
-                    Wallpaper.Set(scraper.saved_path);
-                }
-            }
-            else if (Cfg.display_mode == 2)
-            {
-                //
-            }
-        }
-
-        private void Form2_Deactivate(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.ShowInTaskbar = false;
-                this.Hide();
-                if (!Cfg.autostart)
-                {
-                    notifyIcon1.ShowBalloonTip(1000, "", "EarthLive# is running", ToolTipIcon.Warning);
+                    MyNotifyIcon.ShowBalloonTip(1000, "", Resources.MainForm_Service_is_running, ToolTipIcon.Info);
                 }
             }
         }
 
-
-        
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        private void LlImageFrom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Show();
-            this.ShowInTaskbar = true;
-            this.WindowState = FormWindowState.Normal;
-            this.BringToFront();
-        }
-
-        private void mainForm_Load(object sender, EventArgs e)
-        {
-            button_stop.Enabled = false;
-            if (Cfg.autostart)
-            {
-                button_start.PerformClick();
-                this.WindowState = FormWindowState.Minimized;
-                this.ShowInTaskbar = false;
-            }
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("iexplore.exe", "https://github.com/bitdust/EarthLiveSharp/issues/3");
+            //var info = new System.Diagnostics.ProcessStartInfo("http://himawari8.nict.go.jp/");
+            //System.Diagnostics.Process.Start(info);
+            System.Diagnostics.Process.Start("http://himawari8.nict.go.jp/");
         }
 
         //All logic pertaining to stopping the service
-        private void stopLogic()
+        private void StopLogic()
         {
-            if (serviceRunning)
+            if (_serviceRunning)
             {
                 //notifyIcon1.ShowBalloonTip(200, "", "EarthLive# Service Stopped", ToolTipIcon.Warning);
-                timer1.Stop();
-                button_start.Enabled = true;
-                button_stop.Enabled = false;
-                button_settings.Enabled = true;
-                runningLabel.Text = "Not Running";
-                runningLabel.ForeColor = Color.DarkRed;
-                serviceRunning = false;
+                MyTimer.Stop();
+                BtnStart.Enabled = true;
+                BtnStop.Enabled = false;
+                BtnSetting.Enabled = true;
+                LblStatus.Text = Resources.MainForm_Not_Running;
+                LblStatus.ForeColor = Color.DarkRed;
+                _serviceRunning = false;
             }
-            else if (!serviceRunning) MessageBox.Show("Service is not currently running");
-            contextMenuSetter();
+            else if (!_serviceRunning) { MessageBox.Show(Resources.MainForm_Service_is_not_currently_running); }
+            ContextMenuSetter();
         }
 
         //All logic pertaining to starting the service
-        private void startLogic()
+        private void StartLogic()
         {
-            if (!serviceRunning)
+            if (!_serviceRunning)
             {
                 //notifyIcon1.ShowBalloonTip(200, "", "EarthLive# Service Started", ToolTipIcon.Warning);
                 Cfg.Load();
-                if (Cfg.source_select == "cdn")
-                {
-                    Random rd = new Random();
-                    int selector = rd.Next(1, 5);
-                    switch (selector)
-                    {
-                        case 1: scraper.pic_url = Cfg.cdn1_addr; break;
-                        case 2: scraper.pic_url = Cfg.cdn2_addr; break;
-                        case 3: scraper.pic_url = Cfg.cdn3_addr; break;
-                        case 4: scraper.pic_url = Cfg.cdn4_addr; break;
-                        default: scraper.pic_url = Cfg.cdn1_addr; break;
-                    }
-                }
-                else
-                {
-                    scraper.pic_url = Cfg.origin_addr;
-                }
-                //scraper.image_folder = Cfg.image_folder;
-                scraper.image_folder = Application.StartupPath + @"\images";
-                scraper.max_number = Cfg.max_number;
-                button_start.Enabled = false;
-                button_stop.Enabled = true;
-                button_settings.Enabled = false;
-                scraper.InitFolder();
-                scraper.UpdateImage();
-                timer1.Interval = Cfg.interval * 1000 * 60;
-                timer1.Start();
+                var testUrl = Cfg.GetImageHostUrl();
+                Scraper.ImageHost = testUrl;
+                
+                Scraper.MaxNumber = Cfg.MaxNumber;
+                Scraper.UpdateImage();
 
-                switch (Cfg.display_mode)
+                BtnStart.Enabled = false;
+                BtnStop.Enabled = true;
+                BtnSetting.Enabled = false;
+
+                MyTimer.Interval = Cfg.Interval * 1000 * 60;
+                MyTimer.Start();
+
+                SetWallpaper();
+
+                _serviceRunning = true;
+                LblStatus.Text = Resources.MainForm_Running;
+                LblStatus.ForeColor = Color.DarkGreen;
+            }
+            else if (_serviceRunning) { MessageBox.Show(Resources.MainForm_Service_already_running); }
+            ContextMenuSetter();
+        }
+
+        private static void SetWallpaper()
+        {
+            if (Scraper.SavedPath.Length > 0)
+            {
+                switch (Cfg.DisplayMode)
                 {
                     case 0:
                         Wallpaper.SetDefaultStyle();
-                        if (scraper.saved_path.Length > 0) Wallpaper.Set(scraper.saved_path);
+                        Wallpaper.Set(Scraper.SavedPath);
                         break;
                     case 1:
-                        if (scraper.saved_path.Length > 0) Wallpaper.Set(scraper.saved_path);
+                        Wallpaper.Set(Scraper.SavedPath);
                         break;
                     case 2:
+                        //
                         break;
-                    default:
-                        break;
-                };
-                serviceRunning = true;
-                runningLabel.Text = "    Running";
-                runningLabel.ForeColor = Color.DarkGreen;
-
+                }
             }
-            else if (serviceRunning) MessageBox.Show("Service already running");
-            contextMenuSetter();
         }
 
         //checks if service running and changes context menu based on result.
-        private void contextMenuSetter()
+        private void ContextMenuSetter()
         {
-            if (serviceRunning)
+            if (_serviceRunning)
             {
-                startService.Enabled = false;
-                stopService.Enabled = true;
+                _startService.Enabled = false;
+                _stopService.Enabled = true;
             }
-
-            if (!serviceRunning)
+            else
             {
-                stopService.Enabled = false;
-                startService.Enabled = true;
+                _stopService.Enabled = false;
+                _startService.Enabled = true;
             }
         }
 

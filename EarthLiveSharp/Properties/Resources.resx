@@ -117,4 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MainForm_Are_you_sure_you_want_to_quit" xml:space="preserve">
+    <value>确认退出吗？</value>
+  </data>
+  <data name="MainForm_Start_Service" xml:space="preserve">
+    <value>开启</value>
+  </data>
+  <data name="MainForm_Stop_Service" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="MainForm_Setting" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="MainForm_Quit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="MainForm_Not_Running" xml:space="preserve">
+    <value>未启动</value>
+  </data>
+  <data name="MainForm_Has_Running" xml:space="preserve">
+    <value>已启动</value>
+  </data>
+  <data name="MainForm_Service_is_not_currently_running" xml:space="preserve">
+    <value>服务没有启动</value>
+  </data>
+  <data name ="MainForm_Service_is_running" xml:space="preserve">
+    <value>EarthLive 运行中</value>
+  </data>
+  <data name="MainForm_Running" xml:space="preserve">
+    <value>运行中</value>
+  </data>
+  <data name="MainForm_Service_already_running" xml:space="preserve">
+    <value>服务已启动</value>
+  </data>
 </root>

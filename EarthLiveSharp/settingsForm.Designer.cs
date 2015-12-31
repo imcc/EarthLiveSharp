@@ -1,6 +1,6 @@
 ﻿namespace EarthLiveSharp
 {
-    partial class settingsForm
+    partial class SettingsForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -28,72 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsForm));
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
+            this.LbtnCheckUpdate = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CbImageSource = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
+            this.TxtUpdateMinutes = new System.Windows.Forms.NumericUpDown();
+            this.CbAutoStart = new System.Windows.Forms.CheckBox();
+            this.TxtMaxImageNumber = new System.Windows.Forms.NumericUpDown();
+            this.BtnApply = new System.Windows.Forms.Button();
+            this.LblVersion = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.LbtnReadMore = new System.Windows.Forms.LinkLabel();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBox_DisplayMode = new System.Windows.Forms.ComboBox();
+            this.CbDisplayMode = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnOK = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtUpdateMinutes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtMaxImageNumber)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // linkLabel1
+            // LbtnCheckUpdate
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(47, 270);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(83, 12);
-            this.linkLabel1.TabIndex = 7;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "check upgrade";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.LbtnCheckUpdate.AutoSize = true;
+            this.LbtnCheckUpdate.Location = new System.Drawing.Point(47, 270);
+            this.LbtnCheckUpdate.Name = "LbtnCheckUpdate";
+            this.LbtnCheckUpdate.Size = new System.Drawing.Size(83, 12);
+            this.LbtnCheckUpdate.TabIndex = 7;
+            this.LbtnCheckUpdate.TabStop = true;
+            this.LbtnCheckUpdate.Text = "check upgrade";
+            this.LbtnCheckUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LbtnCheckUpdate_Clicked);
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.CbImageSource);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.numericUpDown1);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.numericUpDown2);
+            this.panel1.Controls.Add(this.TxtUpdateMinutes);
+            this.panel1.Controls.Add(this.CbAutoStart);
+            this.panel1.Controls.Add(this.TxtMaxImageNumber);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(294, 123);
             this.panel1.TabIndex = 11;
             this.panel1.Tag = "";
             // 
-            // comboBox1
+            // CbImageSource
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.CbImageSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbImageSource.FormattingEnabled = true;
+            this.CbImageSource.Items.AddRange(new object[] {
             "origin",
             "cdn"});
-            this.comboBox1.Location = new System.Drawing.Point(175, 15);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(98, 20);
-            this.comboBox1.TabIndex = 1;
+            this.CbImageSource.Location = new System.Drawing.Point(175, 15);
+            this.CbImageSource.Name = "CbImageSource";
+            this.CbImageSource.Size = new System.Drawing.Size(98, 20);
+            this.CbImageSource.TabIndex = 1;
             // 
             // label1
             // 
@@ -131,83 +131,83 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Autostart";
             // 
-            // numericUpDown1
+            // TxtUpdateMinutes
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(175, 41);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.TxtUpdateMinutes.Location = new System.Drawing.Point(175, 41);
+            this.TxtUpdateMinutes.Maximum = new decimal(new int[] {
             120,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.TxtUpdateMinutes.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.ReadOnly = true;
-            this.numericUpDown1.Size = new System.Drawing.Size(98, 21);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.TxtUpdateMinutes.Name = "TxtUpdateMinutes";
+            this.TxtUpdateMinutes.ReadOnly = true;
+            this.TxtUpdateMinutes.Size = new System.Drawing.Size(98, 21);
+            this.TxtUpdateMinutes.TabIndex = 2;
+            this.TxtUpdateMinutes.Value = new decimal(new int[] {
             9,
             0,
             0,
             0});
             // 
-            // checkBox1
+            // CbAutoStart
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(175, 99);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.CbAutoStart.AutoSize = true;
+            this.CbAutoStart.Location = new System.Drawing.Point(175, 99);
+            this.CbAutoStart.Name = "CbAutoStart";
+            this.CbAutoStart.Size = new System.Drawing.Size(15, 14);
+            this.CbAutoStart.TabIndex = 5;
+            this.CbAutoStart.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown2
+            // TxtMaxImageNumber
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(175, 68);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.TxtMaxImageNumber.Location = new System.Drawing.Point(175, 68);
+            this.TxtMaxImageNumber.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(98, 21);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.TxtMaxImageNumber.Name = "TxtMaxImageNumber";
+            this.TxtMaxImageNumber.Size = new System.Drawing.Size(98, 21);
+            this.TxtMaxImageNumber.TabIndex = 3;
+            this.TxtMaxImageNumber.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
             // 
-            // button3
+            // BtnApply
             // 
-            this.button3.Location = new System.Drawing.Point(150, 261);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Apply";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.BtnApply.Location = new System.Drawing.Point(150, 261);
+            this.BtnApply.Name = "BtnApply";
+            this.BtnApply.Size = new System.Drawing.Size(75, 23);
+            this.BtnApply.TabIndex = 6;
+            this.BtnApply.Text = "Apply";
+            this.BtnApply.UseVisualStyleBackColor = true;
+            this.BtnApply.Click += new System.EventHandler(this.BtnApply_Click);
             // 
-            // label5
+            // LblVersion
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 270);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "v0.0";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.LblVersion.AutoSize = true;
+            this.LblVersion.Location = new System.Drawing.Point(10, 270);
+            this.LblVersion.Name = "LblVersion";
+            this.LblVersion.Size = new System.Drawing.Size(29, 12);
+            this.LblVersion.TabIndex = 12;
+            this.LblVersion.Text = "v0.0";
+            this.LblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.linkLabel2);
+            this.panel2.Controls.Add(this.LbtnReadMore);
             this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.comboBox_DisplayMode);
+            this.panel2.Controls.Add(this.CbDisplayMode);
             this.panel2.Controls.Add(this.label7);
             this.panel2.Location = new System.Drawing.Point(14, 141);
             this.panel2.Name = "panel2";
@@ -232,16 +232,16 @@
             this.label9.TabIndex = 6;
             this.label9.Text = "Customized: You can change the display style.";
             // 
-            // linkLabel2
+            // LbtnReadMore
             // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(75, 81);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(65, 12);
-            this.linkLabel2.TabIndex = 7;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "read this.";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            this.LbtnReadMore.AutoSize = true;
+            this.LbtnReadMore.Location = new System.Drawing.Point(75, 81);
+            this.LbtnReadMore.Name = "LbtnReadMore";
+            this.LbtnReadMore.Size = new System.Drawing.Size(65, 12);
+            this.LbtnReadMore.TabIndex = 7;
+            this.LbtnReadMore.TabStop = true;
+            this.LbtnReadMore.Text = "read this.";
+            this.LbtnReadMore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LbtnReadMore_Clicked);
             // 
             // label8
             // 
@@ -252,19 +252,19 @@
             this.label8.TabIndex = 5;
             this.label8.Text = "Default: Only show the latest image in center.";
             // 
-            // comboBox_DisplayMode
+            // CbDisplayMode
             // 
-            this.comboBox_DisplayMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_DisplayMode.DropDownWidth = 200;
-            this.comboBox_DisplayMode.FormattingEnabled = true;
-            this.comboBox_DisplayMode.Items.AddRange(new object[] {
+            this.CbDisplayMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbDisplayMode.DropDownWidth = 200;
+            this.CbDisplayMode.FormattingEnabled = true;
+            this.CbDisplayMode.Items.AddRange(new object[] {
             "Only latest (Default)",
             "Only latest (Customized Style)",
             "Slideshow  (Customized Style)"});
-            this.comboBox_DisplayMode.Location = new System.Drawing.Point(96, 7);
-            this.comboBox_DisplayMode.Name = "comboBox_DisplayMode";
-            this.comboBox_DisplayMode.Size = new System.Drawing.Size(176, 20);
-            this.comboBox_DisplayMode.TabIndex = 4;
+            this.CbDisplayMode.Location = new System.Drawing.Point(96, 7);
+            this.CbDisplayMode.Name = "CbDisplayMode";
+            this.CbDisplayMode.Size = new System.Drawing.Size(176, 20);
+            this.CbDisplayMode.TabIndex = 4;
             // 
             // label7
             // 
@@ -275,39 +275,39 @@
             this.label7.TabIndex = 3;
             this.label7.Text = "Display mode";
             // 
-            // button1
+            // BtnOK
             // 
-            this.button1.Location = new System.Drawing.Point(231, 261);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Ok";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BtnOK.Location = new System.Drawing.Point(231, 261);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(75, 23);
+            this.BtnOK.TabIndex = 14;
+            this.BtnOK.Text = "Ok";
+            this.BtnOK.UseVisualStyleBackColor = true;
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
-            // settingsForm
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 295);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.LblVersion);
+            this.Controls.Add(this.LbtnCheckUpdate);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.BtnApply);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "settingsForm";
+            this.Name = "SettingsForm";
             this.ShowInTaskbar = false;
-            this.Text = "settings";
+            this.Text = "设置";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.settingsForm_Load);
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtUpdateMinutes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtMaxImageNumber)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -317,26 +317,26 @@
 
         #endregion
 
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel LbtnCheckUpdate;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button BtnApply;
+        private System.Windows.Forms.ComboBox CbImageSource;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown TxtUpdateMinutes;
+        private System.Windows.Forms.CheckBox CbAutoStart;
+        private System.Windows.Forms.NumericUpDown TxtMaxImageNumber;
+        private System.Windows.Forms.Label LblVersion;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ComboBox comboBox_DisplayMode;
+        private System.Windows.Forms.ComboBox CbDisplayMode;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel LbtnReadMore;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BtnOK;
     }
 }
 

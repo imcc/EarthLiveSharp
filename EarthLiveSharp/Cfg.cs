@@ -10,62 +10,74 @@ namespace EarthLiveSharp
 {
     public static class Cfg
     {
-        public static string version;
-        public static string image_folder;
-        public static string origin_addr;
-        public static string cdn1_addr;
-        public static string cdn2_addr;
-        public static string cdn3_addr;
-        public static string cdn4_addr;
-        public static string source_select;
-        public static int interval;
-        public static int max_number;
-        public static bool autostart;
-        public static int display_mode; // 0 for only latest default; 1 for only latest customized style; 2 for slideshow
+        public static string Version;
+        public static string ImageFolder;
+        public static string OriginAddr;
+        public static List<string> CdnUrls;
+        //public static string Cdn1Addr;
+        //public static string Cdn2Addr;
+        //public static string Cdn3Addr;
+        //public static string Cdn4Addr;
+        public static string SourceSelect;
+        public static int Interval;
+        public static int MaxNumber;
+        public static bool Autostart;
+        public static int DisplayMode; // 0 for only latest default; 1 for only latest customized style; 2 for slideshow
+
+        private static readonly Random Rdm = new Random();
 
         public static void Load()
         {
             try
             {
-                ExeConfigurationFileMap map = new ExeConfigurationFileMap();
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                AppSettingsSection app = config.AppSettings;
-                version = app.Settings["version"].Value;
-                image_folder = app.Settings["image_folder"].Value;
-                origin_addr = app.Settings["origin"].Value;
-                cdn1_addr = app.Settings["cdn1"].Value;
-                cdn2_addr = app.Settings["cdn2"].Value;
-                cdn3_addr = app.Settings["cdn3"].Value;
-                cdn4_addr = app.Settings["cdn4"].Value;
-                source_select = app.Settings["source_select"].Value;
-                interval = Convert.ToInt32(app.Settings["interval"].Value);
-                max_number = Convert.ToInt32(app.Settings["max_number"].Value);
-                autostart = Convert.ToBoolean(app.Settings["autostart"].Value);
-                display_mode = Convert.ToInt32(app.Settings["display_mode"].Value);
-                return;
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var app = config.AppSettings;
+                Version = app.Settings["version"].Value;
+                ImageFolder = app.Settings["image_folder"].Value;
+                OriginAddr = app.Settings["origin"].Value;
+                CdnUrls = new List<string>(app.Settings["cdns"].Value.Split(','));
+                SourceSelect = app.Settings["source_select"].Value;
+                Interval = Convert.ToInt32(app.Settings["interval"].Value);
+                MaxNumber = Convert.ToInt32(app.Settings["max_number"].Value);
+                Autostart = Convert.ToBoolean(app.Settings["autostart"].Value);
+                DisplayMode = Convert.ToInt32(app.Settings["display_mode"].Value);
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e.Message);
                 MessageBox.Show("Configure error!");
-                throw (e);
+                throw;
             }
         }
+
         public static void Save()
         {
-            ExeConfigurationFileMap map = new ExeConfigurationFileMap();
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            AppSettingsSection app = config.AppSettings;
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var app = config.AppSettings;
+
             //app.Settings["origin"].Value = origin_addr;
             //app.Settings["cdn"].Value = cdn_addr;
-            app.Settings["image_folder"].Value = image_folder;
-            app.Settings["source_select"].Value = source_select;
-            app.Settings["interval"].Value = interval.ToString();
-            app.Settings["max_number"].Value = max_number.ToString();
-            app.Settings["autostart"].Value = autostart.ToString();
-            app.Settings["display_mode"].Value = display_mode.ToString();
+            app.Settings["image_folder"].Value = ImageFolder;
+            app.Settings["source_select"].Value = SourceSelect;
+            app.Settings["interval"].Value = Interval.ToString();
+            app.Settings["max_number"].Value = MaxNumber.ToString();
+            app.Settings["autostart"].Value = Autostart.ToString();
+            app.Settings["display_mode"].Value = DisplayMode.ToString();
             config.Save();
-            return;
+        }
+
+        public static string GetImageHostUrl()
+        {
+            if (string.Equals(SourceSelect, "cdn", StringComparison.OrdinalIgnoreCase))
+            {
+                return GetRandomCdnUrl();
+            }
+            return OriginAddr;
+        }
+
+        public static string GetRandomCdnUrl()
+        {
+            return CdnUrls[Rdm.Next(0, CdnUrls.Count)];
         }
     }
 }
